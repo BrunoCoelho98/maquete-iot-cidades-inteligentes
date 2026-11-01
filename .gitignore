@@ -1,0 +1,18 @@
+# Credenciais da rede: cada um cria o seu a partir do secrets.example.h
+secrets.h
+
+# Arduino / build
+build/
+*.bin
+*.elf
+*.hex
+*.map
+
+# Sistema e editores
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+~$*
+__pycache__/
+*.pyc

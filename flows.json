@@ -1,0 +1,2127 @@
+[
+  {
+    "id": "flow1",
+    "type": "tab",
+    "label": "Smart City",
+    "disabled": false,
+    "info": "",
+    "env": []
+  },
+  {
+    "id": "812148483a1627fe",
+    "type": "ui_base",
+    "theme": {
+      "name": "theme-light",
+      "lightTheme": {
+        "default": "#0094CE",
+        "baseColor": "#0094CE",
+        "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+        "edited": true,
+        "reset": false
+      },
+      "darkTheme": {
+        "default": "#097479",
+        "baseColor": "#097479",
+        "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+        "edited": false
+      },
+      "customTheme": {
+        "name": "Untitled Theme 1",
+        "default": "#4B7930",
+        "baseColor": "#4B7930",
+        "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+      },
+      "themeState": {
+        "base-color": {
+          "default": "#0094CE",
+          "value": "#0094CE",
+          "edited": false
+        },
+        "page-titlebar-backgroundColor": {
+          "value": "#0094CE",
+          "edited": false
+        },
+        "page-backgroundColor": {
+          "value": "#fafafa",
+          "edited": false
+        },
+        "page-sidebar-backgroundColor": {
+          "value": "#ffffff",
+          "edited": false
+        },
+        "group-textColor": {
+          "value": "#1bbfff",
+          "edited": false
+        },
+        "group-borderColor": {
+          "value": "#ffffff",
+          "edited": false
+        },
+        "group-backgroundColor": {
+          "value": "#ffffff",
+          "edited": false
+        },
+        "widget-textColor": {
+          "value": "#111111",
+          "edited": false
+        },
+        "widget-backgroundColor": {
+          "value": "#0094ce",
+          "edited": false
+        },
+        "widget-borderColor": {
+          "value": "#ffffff",
+          "edited": false
+        },
+        "base-font": {
+          "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+        }
+      },
+      "angularTheme": {
+        "primary": "indigo",
+        "accents": "blue",
+        "warn": "red",
+        "background": "grey",
+        "palette": "light"
+      }
+    },
+    "site": {
+      "name": "Node-RED Dashboard",
+      "hideToolbar": "false",
+      "allowSwipe": "false",
+      "lockMenu": "false",
+      "allowTempTheme": "true",
+      "dateFormat": "DD/MM/YYYY",
+      "sizes": {
+        "sx": 48,
+        "sy": 48,
+        "gx": 6,
+        "gy": 6,
+        "cx": 6,
+        "cy": 6,
+        "px": 0,
+        "py": 0
+      }
+    }
+  },
+  {
+    "id": "broker1",
+    "type": "mqtt-broker",
+    "name": "Mosquitto",
+    "broker": "localhost",
+    "port": "1883",
+    "clientid": "",
+    "autoConnect": true,
+    "usetls": false,
+    "protocolVersion": 4,
+    "keepalive": 15,
+    "cleansession": true,
+    "birthTopic": "",
+    "birthQos": "0",
+    "birthPayload": "",
+    "birthMsg": {},
+    "closeTopic": "",
+    "closePayload": "",
+    "closeMsg": {},
+    "willTopic": "",
+    "willQos": "0",
+    "willPayload": "",
+    "willMsg": {},
+    "userProps": "",
+    "sessionExpiry": ""
+  },
+  {
+    "id": "tab_city",
+    "type": "ui_tab",
+    "name": "Smart City",
+    "icon": "dashboard",
+    "order": 1,
+    "disabled": false,
+    "hidden": false
+  },
+  {
+    "id": "g_enchente",
+    "type": "ui_group",
+    "name": "Enchente",
+    "tab": "tab_city",
+    "order": 1,
+    "disp": true,
+    "width": 6,
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "g_temp",
+    "type": "ui_group",
+    "name": "Temperatura",
+    "tab": "tab_city",
+    "order": 2,
+    "disp": true,
+    "width": 6,
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "g_estac",
+    "type": "ui_group",
+    "name": "Estacionamento",
+    "tab": "tab_city",
+    "order": 3,
+    "disp": true,
+    "width": 6,
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "g_ilum",
+    "type": "ui_group",
+    "name": "Iluminacao Publica",
+    "tab": "tab_city",
+    "order": 4,
+    "disp": true,
+    "width": 6,
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "en_in",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/enchente/estado",
+    "qos": "0",
+    "datatype": "json",
+    "broker": "broker1",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 130,
+    "y": 60,
+    "wires": [
+      [
+        "en_nivel_fn",
+        "en_estado_fn"
+      ]
+    ]
+  },
+  {
+    "id": "en_nivel_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "nivel",
+    "func": "msg.payload = msg.payload.nivel; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 40,
+    "wires": [
+      [
+        "en_nivel_g"
+      ]
+    ]
+  },
+  {
+    "id": "en_estado_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "estado",
+    "func": "msg.payload = msg.payload.estado; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 90,
+    "wires": [
+      [
+        "en_estado_t"
+      ]
+    ]
+  },
+  {
+    "id": "en_nivel_g",
+    "type": "ui_gauge",
+    "z": "flow1",
+    "name": "",
+    "group": "g_enchente",
+    "order": 1,
+    "width": 3,
+    "height": 3,
+    "gtype": "gage",
+    "title": "Nivel",
+    "label": "cm",
+    "format": "{{value}}",
+    "min": 0,
+    "max": 40,
+    "colors": [
+      "#ca3838",
+      "#e6e600",
+      "#00b500"
+    ],
+    "seg1": "15",
+    "seg2": "25",
+    "className": "",
+    "x": 560,
+    "y": 40,
+    "wires": []
+  },
+  {
+    "id": "en_estado_t",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_enchente",
+    "order": 2,
+    "width": 3,
+    "height": 1,
+    "name": "",
+    "label": "Estado",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 560,
+    "y": 90,
+    "wires": []
+  },
+  {
+    "id": "en_sim_btn",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_enchente",
+    "order": 3,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Simular subida",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "SIMULAR",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "str",
+    "x": 150,
+    "y": 140,
+    "wires": [
+      [
+        "en_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "en_reset_btn",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_enchente",
+    "order": 4,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Reset",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "RESET",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "str",
+    "x": 150,
+    "y": 190,
+    "wires": [
+      [
+        "en_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "en_cmd_out",
+    "type": "mqtt out",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/enchente/cmd",
+    "qos": "0",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "broker1",
+    "x": 430,
+    "y": 165,
+    "wires": []
+  },
+  {
+    "id": "tp_in",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/temperatura/estado",
+    "qos": "0",
+    "datatype": "json",
+    "broker": "broker1",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 130,
+    "y": 260,
+    "wires": [
+      [
+        "tp_temp_fn",
+        "tp_status_fn"
+      ]
+    ]
+  },
+  {
+    "id": "tp_temp_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "temp",
+    "func": "msg.payload = msg.payload.temp; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 240,
+    "wires": [
+      [
+        "tp_gauge",
+        "tp_chart"
+      ]
+    ]
+  },
+  {
+    "id": "tp_status_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "status",
+    "func": "msg.payload = msg.payload.status; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 290,
+    "wires": [
+      [
+        "tp_text"
+      ]
+    ]
+  },
+  {
+    "id": "tp_gauge",
+    "type": "ui_gauge",
+    "z": "flow1",
+    "name": "",
+    "group": "g_temp",
+    "order": 1,
+    "width": 3,
+    "height": 3,
+    "gtype": "gage",
+    "title": "Temp",
+    "label": "C",
+    "format": "{{value}}",
+    "min": -10,
+    "max": 60,
+    "colors": [
+      "#00b500",
+      "#e6e600",
+      "#ca3838"
+    ],
+    "seg1": "15",
+    "seg2": "35",
+    "className": "",
+    "x": 560,
+    "y": 220,
+    "wires": []
+  },
+  {
+    "id": "tp_text",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_temp",
+    "order": 2,
+    "width": 3,
+    "height": 1,
+    "name": "",
+    "label": "Status",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 560,
+    "y": 290,
+    "wires": []
+  },
+  {
+    "id": "tp_chart",
+    "type": "ui_chart",
+    "z": "flow1",
+    "name": "",
+    "group": "g_temp",
+    "order": 3,
+    "width": 6,
+    "height": 3,
+    "label": "Historico",
+    "chartType": "line",
+    "legend": "false",
+    "xformat": "HH:mm:ss",
+    "interpolate": "linear",
+    "nodata": "",
+    "dot": false,
+    "ymin": "",
+    "ymax": "",
+    "removeOlder": "10",
+    "removeOlderPoints": "",
+    "removeOlderUnit": "60",
+    "cutout": 0,
+    "useOneColor": false,
+    "useUTC": false,
+    "colors": [
+      "#1f77b4",
+      "#aec7e8",
+      "#ff7f0e",
+      "#2ca02c",
+      "#98df8a"
+    ],
+    "outputs": 1,
+    "useDifferentColor": false,
+    "className": "",
+    "x": 560,
+    "y": 340,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "es_in",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/estacionamento/estado",
+    "qos": "0",
+    "datatype": "json",
+    "broker": "broker1",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 130,
+    "y": 440,
+    "wires": [
+      [
+        "es_livres_fn",
+        "es_v1_fn",
+        "es_v2_fn",
+        "es_v3_fn"
+      ]
+    ]
+  },
+  {
+    "id": "es_livres_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "livres",
+    "func": "msg.payload = msg.payload.livres; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 400,
+    "wires": [
+      [
+        "es_livres_g"
+      ]
+    ]
+  },
+  {
+    "id": "es_v1_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "vaga1",
+    "func": "msg.payload = msg.payload.vagas[0] ? 'LIVRE' : 'OCUPADA'; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 440,
+    "wires": [
+      [
+        "es_v1_t"
+      ]
+    ]
+  },
+  {
+    "id": "es_v2_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "vaga2",
+    "func": "msg.payload = msg.payload.vagas[1] ? 'LIVRE' : 'OCUPADA'; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 480,
+    "wires": [
+      [
+        "es_v2_t"
+      ]
+    ]
+  },
+  {
+    "id": "es_v3_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "vaga3",
+    "func": "msg.payload = msg.payload.vagas[2] ? 'LIVRE' : 'OCUPADA'; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 520,
+    "wires": [
+      [
+        "es_v3_t"
+      ]
+    ]
+  },
+  {
+    "id": "es_livres_g",
+    "type": "ui_gauge",
+    "z": "flow1",
+    "name": "",
+    "group": "g_estac",
+    "order": 1,
+    "width": 3,
+    "height": 3,
+    "gtype": "gage",
+    "title": "Vagas Livres",
+    "label": "",
+    "format": "{{value}}",
+    "min": 0,
+    "max": 3,
+    "colors": [
+      "#ca3838",
+      "#e6e600",
+      "#00b500"
+    ],
+    "seg1": "1",
+    "seg2": "2",
+    "className": "",
+    "x": 580,
+    "y": 400,
+    "wires": []
+  },
+  {
+    "id": "es_v1_t",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_estac",
+    "order": 2,
+    "width": 3,
+    "height": 1,
+    "name": "",
+    "label": "Vaga 1",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 580,
+    "y": 440,
+    "wires": []
+  },
+  {
+    "id": "es_v2_t",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_estac",
+    "order": 3,
+    "width": 3,
+    "height": 1,
+    "name": "",
+    "label": "Vaga 2",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 580,
+    "y": 480,
+    "wires": []
+  },
+  {
+    "id": "es_v3_t",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_estac",
+    "order": 4,
+    "width": 3,
+    "height": 1,
+    "name": "",
+    "label": "Vaga 3",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 580,
+    "y": 520,
+    "wires": []
+  },
+  {
+    "id": "il_in",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/iluminacao/estado",
+    "qos": "0",
+    "datatype": "json",
+    "broker": "broker1",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 130,
+    "y": 640,
+    "wires": [
+      [
+        "il_ldr_fn",
+        "il_bri_fn",
+        "il_pres_fn"
+      ]
+    ]
+  },
+  {
+    "id": "il_ldr_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "ldr",
+    "func": "msg.payload = msg.payload.ldr; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 600,
+    "wires": [
+      [
+        "il_ldr_g"
+      ]
+    ]
+  },
+  {
+    "id": "il_bri_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "brilho",
+    "func": "msg.payload = msg.payload.brilho; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 640,
+    "wires": [
+      [
+        "il_bri_g"
+      ]
+    ]
+  },
+  {
+    "id": "il_pres_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "presenca",
+    "func": "msg.payload = msg.payload.presenca ? 'PRESENCA' : '---'; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 680,
+    "wires": [
+      [
+        "il_pres_t"
+      ]
+    ]
+  },
+  {
+    "id": "il_ldr_g",
+    "type": "ui_gauge",
+    "z": "flow1",
+    "name": "",
+    "group": "g_ilum",
+    "order": 1,
+    "width": 3,
+    "height": 3,
+    "gtype": "gage",
+    "title": "LDR",
+    "label": "",
+    "format": "{{value}}",
+    "min": 0,
+    "max": 4095,
+    "colors": [
+      "#000000",
+      "#808080",
+      "#ffff00"
+    ],
+    "seg1": "",
+    "seg2": "",
+    "className": "",
+    "x": 580,
+    "y": 600,
+    "wires": []
+  },
+  {
+    "id": "il_bri_g",
+    "type": "ui_gauge",
+    "z": "flow1",
+    "name": "",
+    "group": "g_ilum",
+    "order": 2,
+    "width": 3,
+    "height": 3,
+    "gtype": "gage",
+    "title": "Brilho",
+    "label": "",
+    "format": "{{value}}",
+    "min": 0,
+    "max": 255,
+    "colors": [
+      "#000000",
+      "#e6e600",
+      "#ffffff"
+    ],
+    "seg1": "",
+    "seg2": "",
+    "className": "",
+    "x": 580,
+    "y": 640,
+    "wires": []
+  },
+  {
+    "id": "il_pres_t",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_ilum",
+    "order": 3,
+    "width": 3,
+    "height": 1,
+    "name": "",
+    "label": "Presenca",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 580,
+    "y": 680,
+    "wires": []
+  },
+  {
+    "id": "il_on_btn",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_ilum",
+    "order": 4,
+    "width": 2,
+    "height": 1,
+    "passthru": false,
+    "label": "ON",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "ON",
+    "payloadType": "str",
+    "topic": "",
+    "topicType": "str",
+    "x": 130,
+    "y": 740,
+    "wires": [
+      [
+        "il_modo_fn"
+      ]
+    ]
+  },
+  {
+    "id": "il_off_btn",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_ilum",
+    "order": 5,
+    "width": 2,
+    "height": 1,
+    "passthru": false,
+    "label": "OFF",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "OFF",
+    "payloadType": "str",
+    "topic": "",
+    "topicType": "str",
+    "x": 130,
+    "y": 780,
+    "wires": [
+      [
+        "il_modo_fn"
+      ]
+    ]
+  },
+  {
+    "id": "il_auto_btn",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_ilum",
+    "order": 6,
+    "width": 2,
+    "height": 1,
+    "passthru": false,
+    "label": "AUTO",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "AUTO",
+    "payloadType": "str",
+    "topic": "",
+    "topicType": "str",
+    "x": 130,
+    "y": 820,
+    "wires": [
+      [
+        "il_modo_fn"
+      ]
+    ]
+  },
+  {
+    "id": "il_modo_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "modo->json",
+    "func": "msg.payload = { modo: msg.payload }; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 340,
+    "y": 780,
+    "wires": [
+      [
+        "il_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "il_slider",
+    "type": "ui_slider",
+    "z": "flow1",
+    "name": "",
+    "label": "Limiar",
+    "tooltip": "",
+    "group": "g_ilum",
+    "order": 7,
+    "width": 6,
+    "height": 1,
+    "passthru": true,
+    "outs": "end",
+    "topic": "",
+    "topicType": "str",
+    "min": 0,
+    "max": 4095,
+    "step": 50,
+    "className": "",
+    "x": 130,
+    "y": 870,
+    "wires": [
+      [
+        "il_limiar_fn"
+      ]
+    ]
+  },
+  {
+    "id": "il_limiar_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "limiar->json",
+    "func": "msg.payload = { limiar: msg.payload }; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 340,
+    "y": 870,
+    "wires": [
+      [
+        "il_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "il_cmd_out",
+    "type": "mqtt out",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/iluminacao/cmd",
+    "qos": "0",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "broker1",
+    "x": 570,
+    "y": 820,
+    "wires": []
+  },
+  {
+    "id": "g_seguranca",
+    "type": "ui_group",
+    "name": "Seguranca - Gas/Fumaca",
+    "tab": "tab_city",
+    "order": 6,
+    "disp": true,
+    "width": 6,
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "sg_in",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/seguranca/estado",
+    "qos": "0",
+    "datatype": "json",
+    "broker": "broker1",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 130,
+    "y": 1120,
+    "wires": [
+      [
+        "sg_gas_fn",
+        "sg_est_fn",
+        "sg_sil_fn"
+      ]
+    ]
+  },
+  {
+    "id": "sg_gas_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "gas",
+    "func": "msg.payload = msg.payload.gas; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 1080,
+    "wires": [
+      [
+        "sg_gas_g"
+      ]
+    ]
+  },
+  {
+    "id": "sg_est_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "estado",
+    "func": "msg.payload = msg.payload.estado; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 1120,
+    "wires": [
+      [
+        "sg_est_t"
+      ]
+    ]
+  },
+  {
+    "id": "sg_sil_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "silenciado",
+    "func": "msg.payload = msg.payload.silenciado ? 'SILENCIADO' : 'ARMADO'; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 1160,
+    "wires": [
+      [
+        "sg_sil_t"
+      ]
+    ]
+  },
+  {
+    "id": "sg_gas_g",
+    "type": "ui_gauge",
+    "z": "flow1",
+    "name": "",
+    "group": "g_seguranca",
+    "order": 1,
+    "width": 3,
+    "height": 3,
+    "gtype": "gage",
+    "title": "Gas/Fumaca",
+    "label": "",
+    "format": "{{value}}",
+    "min": 0,
+    "max": 4095,
+    "colors": [
+      "#00b500",
+      "#e6e600",
+      "#ca3838"
+    ],
+    "seg1": "1500",
+    "seg2": "2500",
+    "className": "",
+    "x": 580,
+    "y": 1080,
+    "wires": []
+  },
+  {
+    "id": "sg_est_t",
+    "type": "ui_text",
+    "z": "flow1",
+    "name": "",
+    "group": "g_seguranca",
+    "order": 2,
+    "width": 3,
+    "height": 1,
+    "label": "Estado",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 580,
+    "y": 1120,
+    "wires": []
+  },
+  {
+    "id": "sg_sil_t",
+    "type": "ui_text",
+    "z": "flow1",
+    "name": "",
+    "group": "g_seguranca",
+    "order": 3,
+    "width": 3,
+    "height": 1,
+    "label": "Sirene",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 580,
+    "y": 1160,
+    "wires": []
+  },
+  {
+    "id": "sg_sil_btn",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_seguranca",
+    "order": 4,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Silenciar",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "SILENCIAR",
+    "payloadType": "str",
+    "topic": "",
+    "topicType": "str",
+    "x": 140,
+    "y": 1210,
+    "wires": [
+      [
+        "sg_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "sg_rearm_btn",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_seguranca",
+    "order": 5,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Rearmar",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "REARMAR",
+    "payloadType": "str",
+    "topic": "",
+    "topicType": "str",
+    "x": 140,
+    "y": 1250,
+    "wires": [
+      [
+        "sg_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "sg_alerta_slider",
+    "type": "ui_slider",
+    "z": "flow1",
+    "name": "",
+    "label": "Limiar Alerta",
+    "tooltip": "",
+    "group": "g_seguranca",
+    "order": 6,
+    "width": 6,
+    "height": 1,
+    "passthru": true,
+    "outs": "end",
+    "topic": "",
+    "topicType": "str",
+    "min": 0,
+    "max": 4095,
+    "step": 50,
+    "className": "",
+    "x": 150,
+    "y": 1300,
+    "wires": [
+      [
+        "sg_alerta_fn"
+      ]
+    ]
+  },
+  {
+    "id": "sg_alerta_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "alerta->json",
+    "func": "msg.payload = { limiarAlerta: msg.payload }; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 400,
+    "y": 1300,
+    "wires": [
+      [
+        "sg_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "sg_perigo_slider",
+    "type": "ui_slider",
+    "z": "flow1",
+    "name": "",
+    "label": "Limiar Perigo",
+    "tooltip": "",
+    "group": "g_seguranca",
+    "order": 7,
+    "width": 6,
+    "height": 1,
+    "passthru": true,
+    "outs": "end",
+    "topic": "",
+    "topicType": "str",
+    "min": 0,
+    "max": 4095,
+    "step": 50,
+    "className": "",
+    "x": 150,
+    "y": 1350,
+    "wires": [
+      [
+        "sg_perigo_fn"
+      ]
+    ]
+  },
+  {
+    "id": "sg_perigo_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "perigo->json",
+    "func": "msg.payload = { limiarPerigo: msg.payload }; return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 400,
+    "y": 1350,
+    "wires": [
+      [
+        "sg_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "sg_cmd_out",
+    "type": "mqtt out",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/seguranca/cmd",
+    "qos": "0",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "broker1",
+    "x": 610,
+    "y": 1280,
+    "wires": []
+  },
+  {
+    "id": "g_cruz",
+    "type": "ui_group",
+    "name": "Cruzamento",
+    "tab": "tab_city",
+    "order": 5,
+    "disp": true,
+    "width": 6,
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "cz_in",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/cruzamento/estado",
+    "qos": "0",
+    "datatype": "json",
+    "broker": "broker1",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 130,
+    "y": 960,
+    "wires": [
+      [
+        "cz_painel_fn",
+        "cz_coord_fn"
+      ]
+    ]
+  },
+  {
+    "id": "cz_sens_in",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/cruzamento/sensores",
+    "qos": "0",
+    "datatype": "json",
+    "broker": "broker1",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 130,
+    "y": 880,
+    "wires": [
+      [
+        "cz_sens_fn"
+      ]
+    ]
+  },
+  {
+    "id": "cz_sens_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "sensores do cruzamento",
+    "func": "/* Metade da telemetria do cruzamento entra por aqui.\n\n   Desde que o cruzamento virou duas placas, a informacao chega partida: a placa\n   1A (sinaleiras) publica fase, t_fase e pedidos em cidade/cruzamento/estado, e\n   a 1B (sensores) publica carros, fluxo e vagas em cidade/cruzamento/sensores.\n\n   Este no so guarda a leitura mais recente, com a hora. Quem junta e a\n   coordenacao, que roda no ritmo da 1A - e o t_fase dela que manda na decisao.\n   Guardar, em vez de casar as duas mensagens com um join, e de proposito: as\n   duas placas publicam em ritmos independentes e uma pode sumir sem a outra.\n   O carimbo de hora e o que deixa a coordenacao perceber que sumiu. */\n\nconst p = msg.payload;\nif (!p) { return null; }\n\nflow.set('cz_sensores', {\n    carros: p.carros || [0, 0, 0, 0],\n    fluxo:  p.fluxo  || [0, 0, 0, 0],\n    livres: p.livres,\n    t: Date.now()\n});\nreturn null;\n",
+    "outputs": 0,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 390,
+    "y": 880,
+    "wires": []
+  },
+  {
+    "id": "cz_bot_in",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/cruzamento/botoeira",
+    "qos": "0",
+    "datatype": "json",
+    "broker": "broker1",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 130,
+    "y": 1080,
+    "wires": [
+      [
+        "cz_bot_fn"
+      ]
+    ]
+  },
+  {
+    "id": "cz_bot_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "botoeira fisica",
+    "func": "/* Botoeira fisica -> pedido de travessia.\n\n   O botao esta na placa 1B e a maquina de fases mora inteira na 1A; este no e a\n   ponte entre as duas. A 1B publica so a BORDA da apertada ({\"j\":2}), nunca o\n   estado do botao: ela nao tem como saber quando a travessia foi atendida -\n   quem zera o pedido e a maquina de fases, do outro lado.\n\n   Traduzido para o mesmo {\"pedestre\":j} da botoeira virtual do painel, que ja\n   existia. Nenhum caminho novo foi inventado dentro da placa 1A.\n\n   Se o Node-RED estiver fora do ar, o botao fisico nao chega na 1A - a\n   travessia so sai pelo ciclo local. E o mesmo tipo de perda de eficiencia que\n   a arquitetura ja aceita em toda entrada: nunca vira perda de seguranca. */\n\nconst p = msg.payload;\nconst j = (p && typeof p.j === 'number') ? p.j : null;\nif (j === null || j < 0 || j > 3) { return null; }\n\nnode.status({ fill: 'blue', shape: 'dot', text: 'travessia ' + 'NSLO'[j] });\nreturn { payload: JSON.stringify({ pedestre: j }) };\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 390,
+    "y": 1080,
+    "wires": [
+      [
+        "cz_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "cz_painel_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "painel",
+    "func": "\n/* Quebra a telemetria do cruzamento nos widgets do painel. */\nconst s = msg.payload;\nif (!s || !s.fase) { return null; }\n\nconst dir = ['N', 'S', 'L', 'O'];\nconst p = s.pedidos || [0, 0, 0, 0];\n\n// carros vem da placa 1B, por outro topico (ver o no 'sensores do cruzamento')\nconst sens = flow.get('cz_sensores');\nconst cego = !sens || (Date.now() - sens.t) > 5000;\nconst c = cego ? [0, 0, 0, 0] : sens.carros;\n\nconst pedidas = dir.filter(function (d, i) { return p[i]; }).join('  ');\nconst modo = flow.get('cz_modo') || 'AUTO';\nconst sup  = s.supervisionado ? '' : '  (placa no ciclo local)';\n\nreturn [\n    { payload: s.fase },\n    { payload: (modo === 'AUTO' ? 'Automatico' : 'Manual') + sup },\n    { payload: cego ? 'sensores mudos' : (c[0] + c[1]) + ' carro(s)' },\n    { payload: cego ? 'sensores mudos' : (c[2] + c[3]) + ' carro(s)' },\n    { payload: pedidas || '-' }\n];\n",
+    "outputs": 5,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 340,
+    "y": 920,
+    "wires": [
+      [
+        "cz_t_fase"
+      ],
+      [
+        "cz_t_modo"
+      ],
+      [
+        "cz_t_filaA"
+      ],
+      [
+        "cz_t_filaB"
+      ],
+      [
+        "cz_t_ped"
+      ]
+    ]
+  },
+  {
+    "id": "cz_coord_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "coordenacao adaptativa",
+    "func": "/* Coordenacao adaptativa do cruzamento.\n   Entra: cidade/cruzamento/estado (2 Hz) + cidade/cruzamento/sensores (2 Hz)\n   Sai:   cidade/cruzamento/cmd\n\n   A PLACA garante a seguranca (verde minimo, amarelo, entreverdes, tempo de\n   travessia fixo). Aqui mora so a OTIMIZACAO: qual fase, e por quanto tempo.\n\n   O parametro que domina as decisoes e o CUSTO DE TROCA: amarelo (2 s) mais\n   entreverdes (1,5 s) sao 3,5 s em que ninguem anda. Trocar de fase para\n   atender um unico carro costuma custar mais do que esperar. Por isso o verde\n   nao termina no instante em que o detector limpa.\n\n   Comando tem de sair pelo menos a cada 10 s, senao a placa conclui que perdeu\n   o Node-RED e volta ao ciclo de tempo fixo dela. A decisao \"ficar como esta\"\n   reenvia a fase atual como keepalive - a placa ignora comando igual a fase\n   corrente, entao nao ha efeito colateral. */\n\nconst s = msg.payload;\nif (!s || !s.fase) { return null; }\n\nconst GAP         = 2500;    // ausencia continua que encerra o verde (folga)\nconst VERDE_MAX   = 15000;   // teto de justica\nconst PED_ESPERA  = 12000;   // acima disso o pedestre tem prioridade absoluta\nconst KEEPALIVE   = 4000;\nconst SENSOR_MUDO = 5000;    // sem leitura nova ha mais que isso: sensores mudos\n\nconst st = flow.get('cz_st') || {};\nconst agora = Date.now();\n\n/* De onde vem cada metade da informacao.\n   fase, t_fase e pedidos chegam nesta mensagem, da placa 1A. carros e fluxo vem\n   da placa 1B por outro topico e ficam no contexto, com a hora da leitura. */\nconst sens  = flow.get('cz_sensores');\nconst cego  = !sens || (agora - sens.t) > SENSOR_MUDO;\nconst carros = cego ? [0, 0, 0, 0] : sens.carros;\nconst fluxo  = cego ? [0, 0, 0, 0] : sens.fluxo;\nconst pedidos = s.pedidos || [0, 0, 0, 0];\n\nconst modo   = flow.get('cz_modo') || 'AUTO';\nconst manual = flow.get('cz_fase_manual') || 'VIA_A';\n\n/* SENSORES MUDOS: para de comandar, de proposito.\n   Nao ha o que otimizar sem saber quem esta esperando, e insistir seria pior do\n   que calar: com carros[] zerado a regra \"ninguem esperando\" retem o verde, e o\n   cruzamento congelaria numa fase so ate aparecer pedido de pedestre. Calando,\n   em 10 s (T_SEM_COMANDO) a placa 1A conclui que perdeu o supervisor e reassume\n   o ciclo de tempo fixo dela - que alterna as vias e continua atendendo pedido\n   de pedestre, sem depender da rede. E a degradacao projetada: perde-se\n   eficiencia, nunca seguranca.\n   O modo MANUAL escapa: ali quem decide e o operador (ou o modo atrator), e\n   nenhum dos dois depende do detector. */\nif (cego && modo !== 'MANUAL') {\n    node.status({ fill: 'yellow', shape: 'ring', text: 'sensores mudos - ciclo local' });\n    flow.set('cz_st', st);\n    return null;\n}\nnode.status({});\n\nconst temA = carros[0] + carros[1] > 0;          // Norte + Sul\nconst temB = carros[2] + carros[3] > 0;          // Leste + Oeste\nconst temPedestre = pedidos.some(function (p) { return p; });\n\n// --- desde quando ha pedestre esperando ---\nif (temPedestre) { if (!st.pedDesde) { st.pedDesde = agora; } }\nelse             { st.pedDesde = null; }\n\nif (st.fase !== s.fase) {\n    st.fase = s.fase;\n    st.semCarro = null;\n}\n\n/* Taxa de chegada por via, com esquecimento exponencial.\n   Medida CONTINUAMENTE, entre mensagens consecutivas - e nao dentro da fase\n   corrente. Medir por fase nao funcionaria justamente onde esta taxa e usada:\n   durante a travessia todos os carros estao parados e o fluxo da fase e zero\n   nas duas vias. Com meia-vida de ~1 min, isto responde a pergunta certa:\n   qual via anda mais movimentada ultimamente. */\nconst ant = st.fluxoAnt;\nif (ant) {\n    let dA = (fluxo[0] - ant[0]) + (fluxo[1] - ant[1]);\n    let dB = (fluxo[2] - ant[2]) + (fluxo[3] - ant[3]);\n    if (dA < 0 || dB < 0) { dA = 0; dB = 0; }      // contador zerou (placa reiniciou)\n    st.taxaA = (st.taxaA || 0) * 0.995 + dA;\n    st.taxaB = (st.taxaB || 0) * 0.995 + dB;\n}\nst.fluxoAnt = fluxo.slice();\nconst taxaA = st.taxaA || 0;\nconst taxaB = st.taxaB || 0;\n\nlet alvo = null;\n\nif (modo === 'MANUAL') {\n    alvo = manual;                               // operador assumiu: so reafirma\n\n} else if (s.fase === 'VIA_A' || s.fase === 'VIA_B') {\n    const souA   = (s.fase === 'VIA_A');\n    const minha  = souA ? temA : temB;\n    const outra  = souA ? temB : temA;\n    const oposta = souA ? 'VIA_B' : 'VIA_A';\n\n    // relogio de folga: so conta ausencia CONTINUA no meu proprio detector\n    if (minha) { st.semCarro = null; }\n    else if (!st.semCarro) { st.semCarro = agora; }\n\n    const folgaVencida = st.semCarro && (agora - st.semCarro) >= GAP;\n    const tetoVencido  = s.t_fase >= VERDE_MAX;\n    const pedUrgente   = st.pedDesde && (agora - st.pedDesde) >= PED_ESPERA;\n\n    if (pedUrgente) {\n        alvo = 'PEDESTRES';                      // esperou demais: passa na frente\n    } else if (!outra && !temPedestre) {\n        alvo = s.fase;                           // ninguem esperando: retem o verde\n    } else if (tetoVencido || folgaVencida) {\n        // fim natural da fase: agora sim atende quem estava esperando\n        alvo = temPedestre ? 'PEDESTRES' : oposta;\n    } else {\n        alvo = s.fase;                           // ainda descarregando: estende\n    }\n\n} else if (s.fase === 'PEDESTRES') {\n    // prepara a via mais movimentada; se as taxas estao proximas, desempata por\n    // quem tem carro parado agora\n    if (Math.abs(taxaA - taxaB) > 0.5) { alvo = (taxaA > taxaB) ? 'VIA_A' : 'VIA_B'; }\n    else if (temA !== temB) { alvo = temA ? 'VIA_A' : 'VIA_B'; }\n    else { alvo = 'VIA_A'; }\n\n} else {\n    alvo = s.destino;                            // em transicao: mantem a supervisao\n}\n\nflow.set('cz_st', st);\n\nif (!alvo || alvo === 'AMARELO' || alvo === 'ENTREVERDES') { return null; }\n\nconst ultimo = flow.get('cz_ultimo_envio') || 0;\nconst antes  = flow.get('cz_ultimo_alvo');\nif (alvo !== antes || (agora - ultimo) >= KEEPALIVE) {\n    flow.set('cz_ultimo_alvo', alvo);\n    flow.set('cz_ultimo_envio', agora);\n    return { payload: JSON.stringify({ fase: alvo }) };\n}\nreturn null;\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 360,
+    "y": 1030,
+    "wires": [
+      [
+        "cz_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "cz_cmd_out",
+    "type": "mqtt out",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/cruzamento/cmd",
+    "qos": "0",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "broker1",
+    "x": 700,
+    "y": 1030,
+    "wires": []
+  },
+  {
+    "id": "cz_t_fase",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_cruz",
+    "order": 1,
+    "width": 6,
+    "height": 1,
+    "name": "",
+    "label": "Fase",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 620,
+    "y": 860,
+    "wires": []
+  },
+  {
+    "id": "cz_t_modo",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_cruz",
+    "order": 2,
+    "width": 6,
+    "height": 1,
+    "name": "",
+    "label": "Modo",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 620,
+    "y": 900,
+    "wires": []
+  },
+  {
+    "id": "cz_t_filaA",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_cruz",
+    "order": 3,
+    "width": 3,
+    "height": 1,
+    "name": "",
+    "label": "Fila via A (N+S)",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 620,
+    "y": 940,
+    "wires": []
+  },
+  {
+    "id": "cz_t_filaB",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_cruz",
+    "order": 4,
+    "width": 3,
+    "height": 1,
+    "name": "",
+    "label": "Fila via B (L+O)",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 620,
+    "y": 980,
+    "wires": []
+  },
+  {
+    "id": "cz_t_ped",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_cruz",
+    "order": 5,
+    "width": 6,
+    "height": 1,
+    "name": "",
+    "label": "Travessias pedidas",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 620,
+    "y": 1020,
+    "wires": []
+  },
+  {
+    "id": "cz_modo_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "modo",
+    "func": "\n/* Botoes de modo. AUTO devolve a decisao ao coordenador; qualquer outro\n   fixa a fase ate que AUTO seja apertado de novo. */\nconst b = msg.payload;\nif (b === 'AUTO') {\n    flow.set('cz_modo', 'AUTO');\n    return { payload: JSON.stringify({ fase: 'NORMAL' }) };   // sai do piscante\n}\nflow.set('cz_modo', 'MANUAL');\nflow.set('cz_fase_manual', b);\nflow.set('cz_ultimo_alvo', null);              // forca reenvio imediato\nreturn { payload: JSON.stringify({ fase: b }) };\n",
+    "outputs": 1,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 400,
+    "y": 1120,
+    "wires": [
+      [
+        "cz_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "cz_b_auto",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_cruz",
+    "order": 6,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Automatico",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "AUTO",
+    "payloadType": "str",
+    "topic": "",
+    "topicType": "str",
+    "x": 150,
+    "y": 1100,
+    "wires": [
+      [
+        "cz_modo_fn"
+      ]
+    ]
+  },
+  {
+    "id": "cz_b_via_a",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_cruz",
+    "order": 7,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Via A (N-S)",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "VIA_A",
+    "payloadType": "str",
+    "topic": "",
+    "topicType": "str",
+    "x": 150,
+    "y": 1140,
+    "wires": [
+      [
+        "cz_modo_fn"
+      ]
+    ]
+  },
+  {
+    "id": "cz_b_via_b",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_cruz",
+    "order": 8,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Via B (L-O)",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "VIA_B",
+    "payloadType": "str",
+    "topic": "",
+    "topicType": "str",
+    "x": 150,
+    "y": 1180,
+    "wires": [
+      [
+        "cz_modo_fn"
+      ]
+    ]
+  },
+  {
+    "id": "cz_b_ped",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_cruz",
+    "order": 9,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Travessia",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "PEDESTRES",
+    "payloadType": "str",
+    "topic": "",
+    "topicType": "str",
+    "x": 150,
+    "y": 1220,
+    "wires": [
+      [
+        "cz_modo_fn"
+      ]
+    ]
+  },
+  {
+    "id": "cz_b_pisc",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_cruz",
+    "order": 10,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Amarelo piscante",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "PISCANTE",
+    "payloadType": "str",
+    "topic": "",
+    "topicType": "str",
+    "x": 150,
+    "y": 1260,
+    "wires": [
+      [
+        "cz_modo_fn"
+      ]
+    ]
+  },
+  {
+    "id": "cz_bt_ped0",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_cruz",
+    "order": 11,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Botoeira N",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "{\"pedestre\": 0}",
+    "payloadType": "json",
+    "topic": "",
+    "topicType": "str",
+    "x": 150,
+    "y": 1320,
+    "wires": [
+      [
+        "cz_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "cz_bt_ped1",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_cruz",
+    "order": 12,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Botoeira S",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "{\"pedestre\": 1}",
+    "payloadType": "json",
+    "topic": "",
+    "topicType": "str",
+    "x": 150,
+    "y": 1360,
+    "wires": [
+      [
+        "cz_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "cz_bt_ped2",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_cruz",
+    "order": 13,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Botoeira L",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "{\"pedestre\": 2}",
+    "payloadType": "json",
+    "topic": "",
+    "topicType": "str",
+    "x": 150,
+    "y": 1400,
+    "wires": [
+      [
+        "cz_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "cz_bt_ped3",
+    "type": "ui_button",
+    "z": "flow1",
+    "name": "",
+    "group": "g_cruz",
+    "order": 14,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Botoeira O",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "{\"pedestre\": 3}",
+    "payloadType": "json",
+    "topic": "",
+    "topicType": "str",
+    "x": 150,
+    "y": 1440,
+    "wires": [
+      [
+        "cz_cmd_out"
+      ]
+    ]
+  },
+  {
+    "id": "hb_in",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/+/heartbeat",
+    "qos": "0",
+    "datatype": "json",
+    "broker": "broker1",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 130,
+    "y": 1550,
+    "wires": [
+      [
+        "st_fn"
+      ]
+    ]
+  },
+  {
+    "id": "g_cidade",
+    "type": "ui_group",
+    "name": "Estado da Cidade",
+    "tab": "tab_city",
+    "order": 7,
+    "disp": true,
+    "width": 6,
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "st_in",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/+/status",
+    "qos": "1",
+    "datatype": "auto-detect",
+    "broker": "broker1",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 130,
+    "y": 1500,
+    "wires": [
+      [
+        "st_fn"
+      ]
+    ]
+  },
+  {
+    "id": "st_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "estado das placas",
+    "func": "/* Consolida o estado das placas a partir do LWT e do heartbeat.\n\n   O LWT diz se a placa esta conectada ao broker, mas nao se ela esta viva: uma\n   placa travada com a conexao aberta continuaria \"online\". Por isso o\n   heartbeat tambem entra na conta - sem batida ha mais de 30 s, a placa e\n   dada como muda, mesmo que o broker ainda a considere conectada.\n\n   O nome da placa sai do proprio topico (cidade/<placa>/status). Por isso a\n   placa das sinaleiras aparece como 'cruzamento' - ela herdou os topicos do\n   cruzamento inteiro - e a de entradas, que nasceu depois, como 'sensores'.\n\n   MODULO NOVO APARECE SOZINHO. As cinco placas do projeto sao listadas sempre,\n   mesmo antes de darem sinal de vida: uma placa que nunca conectou tem de\n   aparecer OFFLINE, nao sumir. Qualquer outra que publique em\n   cidade/<nome>/status entra na lista sem editar esta funcao, e se o heartbeat\n   dela trouxer o campo \"nome\", e ele que aparece. Ate 2026-09 a lista era\n   fechada nas cinco: o 'mqtt in' ja assinava cidade/+/status, mas um modulo\n   novo ficava invisivel aqui - o que desmentia, no painel, a modularidade\n   que o projeto afirma. */\n\nconst t = msg.topic.split('/');\nconst placa = t[t.length - 2];\nconst tipo  = t[t.length - 1];\n\nconst st = flow.get('estado_placas') || {};\n\n// O tick de 10 s so reavalia quem ficou mudo. Nao e placa, e nao entra na lista.\nif (placa !== 'tick') {\n    st[placa] = st[placa] || {};\n    if (tipo === 'status') {\n        st[placa].conectada = String(msg.payload).trim() === 'online';\n    } else if (tipo === 'heartbeat') {\n        st[placa].ultimoHb = Date.now();\n        const p = msg.payload || {};\n        st[placa].uptime = p.uptime;\n        st[placa].rssi   = p.rssi;\n        if (typeof p.nome === 'string' && p.nome.trim()) st[placa].nome = p.nome.trim();\n    }\n    flow.set('estado_placas', st);\n}\n\nconst NOMES = { cruzamento: 'Sinaleiras', sensores: 'Sensores',\n                iluminacao: 'Iluminação', ambiental: 'Ambiental',\n                seguranca: 'Segurança' };\nconst placas = Object.keys(NOMES).concat(Object.keys(st).filter(function (k) {\n    return !(k in NOMES) && k !== 'tick';\n}));\nconst agora = Date.now();\nconst linhas = [];\nlet vivas = 0;\n\nplacas.forEach(function (k) {\n    const e = st[k] || {};\n    const nome = NOMES[k] || e.nome || (k.charAt(0).toUpperCase() + k.slice(1));\n    const mudo = !e.ultimoHb || (agora - e.ultimoHb) > 30000;\n    let sit;\n    if (!e.conectada)      { sit = 'OFFLINE'; }\n    else if (mudo)         { sit = 'sem heartbeat'; }\n    else                   { sit = 'ok · ' + (e.rssi !== undefined ? e.rssi + ' dBm' : '') ; vivas++; }\n    linhas.push(nome + ': ' + sit);\n});\n\nreturn [\n    { payload: linhas.join('   |   ') },\n    { payload: vivas + ' de ' + placas.length + ' placas respondendo' }\n];",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 380,
+    "y": 1525,
+    "wires": [
+      [
+        "st_txt"
+      ],
+      [
+        "st_resumo"
+      ]
+    ]
+  },
+  {
+    "id": "st_txt",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_cidade",
+    "order": 2,
+    "width": 6,
+    "height": 2,
+    "name": "",
+    "label": "",
+    "format": "{{msg.payload}}",
+    "layout": "col-center",
+    "className": "",
+    "x": 640,
+    "y": 1500,
+    "wires": []
+  },
+  {
+    "id": "st_resumo",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "g_cidade",
+    "order": 1,
+    "width": 6,
+    "height": 1,
+    "name": "",
+    "label": "Placas",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 640,
+    "y": 1550,
+    "wires": []
+  },
+  {
+    "id": "st_tick",
+    "type": "inject",
+    "z": "flow1",
+    "name": "a cada 10 s",
+    "props": [
+      {
+        "p": "topic",
+        "vt": "str"
+      }
+    ],
+    "repeat": "10",
+    "crontab": "",
+    "once": true,
+    "onceDelay": "3",
+    "topic": "cidade/tick/heartbeat",
+    "payload": "{}",
+    "payloadType": "json",
+    "x": 150,
+    "y": 1600,
+    "wires": [
+      [
+        "st_fn"
+      ]
+    ]
+  },
+  {
+    "id": "at_sw",
+    "type": "ui_switch",
+    "z": "flow1",
+    "name": "",
+    "label": "Modo atrator (vitrine)",
+    "tooltip": "",
+    "group": "g_cidade",
+    "order": 3,
+    "width": 6,
+    "height": 1,
+    "passthru": true,
+    "decouple": "false",
+    "topic": "",
+    "topicType": "str",
+    "style": "",
+    "onvalue": "true",
+    "onvalueType": "bool",
+    "onicon": "",
+    "oncolor": "",
+    "offvalue": "false",
+    "offvalueType": "bool",
+    "officon": "",
+    "offcolor": "",
+    "animate": false,
+    "className": "",
+    "x": 150,
+    "y": 1670,
+    "wires": [
+      [
+        "at_set"
+      ]
+    ]
+  },
+  {
+    "id": "at_set",
+    "type": "function",
+    "z": "flow1",
+    "name": "liga/desliga",
+    "func": "flow.set('atrator', msg.payload === true);\nif (!msg.payload) { flow.set('cz_modo', 'AUTO'); }\nreturn null;",
+    "outputs": 0,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 380,
+    "y": 1670,
+    "wires": []
+  },
+  {
+    "id": "at_tick",
+    "type": "inject",
+    "z": "flow1",
+    "name": "a cada 8 s",
+    "props": [],
+    "repeat": "8",
+    "crontab": "",
+    "once": false,
+    "onceDelay": "",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "x": 150,
+    "y": 1720,
+    "wires": [
+      [
+        "at_fn"
+      ]
+    ]
+  },
+  {
+    "id": "at_fn",
+    "type": "function",
+    "z": "flow1",
+    "name": "modo atrator",
+    "func": "\n/* MODO ATRATOR - a maquete nunca parada.\n\n   Cuidado nao obvio: a coordenacao adaptativa RETEM o verde quando nao ha\n   demanda nenhuma, que e o comportamento correto para transito real e\n   exatamente o errado para uma vitrine. Sem carrinho no detector, o cruzamento\n   ficaria estatico. Por isso o atrator assume o controle manual do cruzamento\n   e alterna as fases por conta propria.\n\n   Nao mexe na enchente nem no detector de gas: as duas tem sirene, e um evento\n   de quatro horas com sirene disparando sozinha e insuportavel. */\n\nif (!flow.get('atrator')) {\n    if (flow.get('cz_modo') === 'MANUAL') { flow.set('cz_modo', 'AUTO'); }\n    return null;\n}\n\nconst p = (flow.get('atrator_passo') || 0) + 1;\nflow.set('atrator_passo', p);\n\n// o coordenador reafirma a fase manual a cada ciclo, entao basta trocar o alvo\nconst CICLO = ['VIA_A', 'VIA_A', 'PEDESTRES', 'VIA_B', 'VIA_B', 'PEDESTRES'];\nflow.set('cz_modo', 'MANUAL');\nflow.set('cz_fase_manual', CICLO[p % CICLO.length]);\nflow.set('cz_ultimo_alvo', null);           // forca reenvio imediato\n\nconst alvo = CICLO[p % CICLO.length];\nconst saidas = [null, null];\nconst msgs = [];\n\n/* Publica a fase DIRETO, em vez de so ajustar o contexto e deixar o\n   coordenador emitir. O coordenador so roda quando chega telemetria da placa;\n   se a placa estiver muda, o atrator ficaria parado justamente no momento em\n   que ele existe para evitar isso. Como o modo manual ja foi fixado acima, o\n   coordenador apenas reafirma a mesma fase - nao ha disputa. */\nif (alvo === 'PEDESTRES') {\n    // botoeira antes da fase, senao a placa recusa a travessia sem pedido\n    msgs.push({ payload: JSON.stringify({ pedestre: p % 4 }) });\n}\nmsgs.push({ payload: JSON.stringify({ fase: alvo }) });\nsaidas[0] = msgs;\n\n// pulso no poste a cada ~30 s: simula alguem passando\nif (p % 4 === 0) {\n    saidas[1] = { payload: JSON.stringify({ modo: 'ON' }) };\n} else if (p % 4 === 1) {\n    saidas[1] = { payload: JSON.stringify({ modo: 'AUTO' }) };\n}\nreturn saidas;\n",
+    "outputs": 2,
+    "timeout": 0,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "x": 380,
+    "y": 1720,
+    "wires": [
+      [
+        "at_cruz"
+      ],
+      [
+        "at_ilum"
+      ]
+    ]
+  },
+  {
+    "id": "at_cruz",
+    "type": "mqtt out",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/cruzamento/cmd",
+    "qos": "0",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "broker1",
+    "x": 660,
+    "y": 1700,
+    "wires": []
+  },
+  {
+    "id": "at_ilum",
+    "type": "mqtt out",
+    "z": "flow1",
+    "name": "",
+    "topic": "cidade/iluminacao/cmd",
+    "qos": "0",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "broker1",
+    "x": 660,
+    "y": 1750,
+    "wires": []
+  }
+]
