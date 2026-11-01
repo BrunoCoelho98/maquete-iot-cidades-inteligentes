@@ -1,0 +1,209 @@
+[
+  {
+    "id": "po_aba",
+    "type": "tab",
+    "label": "Ponto de Ônibus",
+    "disabled": false,
+    "info": "Módulo da atividade de ensino. Gerado por atividade/ferramentas/gera_fluxo.py."
+  },
+  {
+    "id": "po_comentario",
+    "type": "comment",
+    "z": "po_aba",
+    "name": "Ponto de Ônibus (módulo da atividade de ensino)",
+    "info": "Gerado por atividade/ferramentas/gera_fluxo.py a partir do firmware.",
+    "x": 220,
+    "y": 40,
+    "wires": []
+  },
+  {
+    "id": "po_grupo",
+    "type": "ui_group",
+    "name": "Ponto de Ônibus",
+    "tab": "tab_city",
+    "order": 8,
+    "disp": true,
+    "width": 6,
+    "collapse": false,
+    "className": ""
+  },
+  {
+    "id": "po_in",
+    "type": "mqtt in",
+    "z": "po_aba",
+    "name": "",
+    "topic": "cidade/ponto/estado",
+    "qos": "0",
+    "datatype": "utf8",
+    "broker": "broker1",
+    "nl": false,
+    "rap": true,
+    "rh": 0,
+    "inputs": 0,
+    "x": 150,
+    "y": 90,
+    "wires": [
+      [
+        "po_debug",
+        "po_txt"
+      ]
+    ]
+  },
+  {
+    "id": "po_debug",
+    "type": "debug",
+    "z": "po_aba",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "false",
+    "statusVal": "",
+    "statusType": "auto",
+    "x": 440,
+    "y": 70,
+    "wires": []
+  },
+  {
+    "id": "po_txt",
+    "type": "ui_text",
+    "z": "po_aba",
+    "group": "po_grupo",
+    "order": 1,
+    "width": 6,
+    "height": 1,
+    "name": "",
+    "label": "Situação do ponto",
+    "format": "{{msg.payload}}",
+    "layout": "row-spread",
+    "className": "",
+    "x": 450,
+    "y": 110,
+    "wires": []
+  },
+  {
+    "id": "po_out",
+    "type": "mqtt out",
+    "z": "po_aba",
+    "name": "",
+    "topic": "cidade/ponto/cmd",
+    "qos": "0",
+    "retain": "",
+    "respTopic": "",
+    "contentType": "",
+    "userProps": "",
+    "correl": "",
+    "expiry": "",
+    "broker": "broker1",
+    "x": 470,
+    "y": 220,
+    "wires": []
+  },
+  {
+    "id": "po_inj_vindo",
+    "type": "inject",
+    "z": "po_aba",
+    "name": "VINDO",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "VINDO",
+    "payloadType": "str",
+    "x": 130,
+    "y": 170,
+    "wires": [
+      [
+        "po_out"
+      ]
+    ]
+  },
+  {
+    "id": "po_btn_vindo",
+    "type": "ui_button",
+    "z": "po_aba",
+    "name": "",
+    "group": "po_grupo",
+    "order": 2,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Ônibus vindo",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "VINDO",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "str",
+    "x": 150,
+    "y": 250,
+    "wires": [
+      [
+        "po_out"
+      ]
+    ]
+  },
+  {
+    "id": "po_inj_chegou",
+    "type": "inject",
+    "z": "po_aba",
+    "name": "CHEGOU",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "topic": "",
+    "payload": "CHEGOU",
+    "payloadType": "str",
+    "x": 130,
+    "y": 210,
+    "wires": [
+      [
+        "po_out"
+      ]
+    ]
+  },
+  {
+    "id": "po_btn_chegou",
+    "type": "ui_button",
+    "z": "po_aba",
+    "name": "",
+    "group": "po_grupo",
+    "order": 3,
+    "width": 3,
+    "height": 1,
+    "passthru": false,
+    "label": "Ônibus chegou",
+    "tooltip": "",
+    "color": "",
+    "bgcolor": "",
+    "className": "",
+    "icon": "",
+    "payload": "CHEGOU",
+    "payloadType": "str",
+    "topic": "topic",
+    "topicType": "str",
+    "x": 150,
+    "y": 290,
+    "wires": [
+      [
+        "po_out"
+      ]
+    ]
+  }
+]
