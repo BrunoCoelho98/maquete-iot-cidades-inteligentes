@@ -5,9 +5,15 @@
      - Sensor MQ-2 (analogico)  -> nivel de gas/fumaca
      - 3 LEDs (verde/amarelo/vermelho) + buzzer/sirene
      - Estados: AQUECENDO -> NORMAL -> ALERTA -> PERIGO
+                e FALHA (leitura presa perto de zero: sensor desconectado)
+     - Sons distintos (NBR 17240 pede falha diferente de alarme):
+         ALERTA  800 Hz intermitente (700 ms)
+         PERIGO 1200 Hz rapido (150 ms)
+         FALHA   400 Hz, bipe longo de 1 s a cada 5 s
 
    Comandos (cidade/seguranca/cmd):
-     "SILENCIAR" | "REARMAR" | {"limiarAlerta":1500,"limiarPerigo":2500}
+     "SILENCIAR" | "REARMAR" |
+     {"limiarAlerta":1500,"limiarPerigo":2500,"limiarFalha":50}
 
    RECURSOS DE ROBUSTEZ
      - secrets.h        : rede, broker e prefixo de topicos num lugar so
@@ -43,14 +49,25 @@ const int BUZZER       = 13;
 // ---------- PARAMETROS (persistidos na NVS) ----------
 int limiarAlerta = 1500;
 int limiarPerigo = 2500;
+/* FALHA: com o MQ-2 aquecido, a leitura em ar limpo fica bem acima de zero.
+   Se o fio do AO solta, o divisor 1k/2k puxa a entrada para GND e a leitura
+   cai a 0; se cai a alimentacao do modulo, idem. Leitura abaixo de
+   limiarFalha por TEMPO_FALHA seguido = sensor fora. Confira no monitor
+   serial que o seu valor em ar limpo fica acima de limiarFalha; se nao
+   ficar, baixe-o pelo painel/MQTT ({"limiarFalha":N}). */
+int limiarFalha  = 50;
 const unsigned long TEMPO_AQUECIMENTO = 20000;   // MQ-2 precisa pre-aquecer
+const unsigned long TEMPO_FALHA       = 3000;    // leitura baixa seguida
 
 // ---------- ESTADO ----------
-enum Est { AQUECENDO, NORMAL, ALERTA, PERIGO };
+enum Est { AQUECENDO, NORMAL, ALERTA, PERIGO, FALHA };
 Est  estado     = AQUECENDO;
+Est  estadoAnterior = AQUECENDO;
 int  gas        = 0;
 bool silenciado = false;
 unsigned long fimAquecimento = 0;
+unsigned long abaixoDesde    = 0;   // 0 = leitura acima de limiarFalha
+unsigned long inicioEstado   = 0;
 unsigned long ultimoPisca = 0;  bool ledOn  = false;
 unsigned long ultimoBeep  = 0;  bool beepOn = false;
 
@@ -71,12 +88,15 @@ void carregarConfig() {
   prefs.begin("seguranca", false);
   limiarAlerta = prefs.getInt("la", limiarAlerta);
   limiarPerigo = prefs.getInt("lp", limiarPerigo);
+  limiarFalha  = prefs.getInt("lf", limiarFalha);
   Serial.print("Config carregada -> alerta="); Serial.print(limiarAlerta);
-  Serial.print(" perigo="); Serial.println(limiarPerigo);
+  Serial.print(" perigo="); Serial.print(limiarPerigo);
+  Serial.print(" falha="); Serial.println(limiarFalha);
 }
 void salvarConfig() {
   prefs.putInt("la", limiarAlerta);
   prefs.putInt("lp", limiarPerigo);
+  prefs.putInt("lf", limiarFalha);
 }
 
 void setupWifi() {
@@ -102,6 +122,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
       bool mudou = false;
       if (doc["limiarAlerta"].is<int>()) { limiarAlerta = doc["limiarAlerta"]; mudou = true; }
       if (doc["limiarPerigo"].is<int>()) { limiarPerigo = doc["limiarPerigo"]; mudou = true; }
+      if (doc["limiarFalha"].is<int>())  { limiarFalha  = doc["limiarFalha"];  mudou = true; }
       if (mudou) salvarConfig();          // calibracao sobrevive ao reset
     }
   }
@@ -130,7 +151,8 @@ const char* nomeEstado() {
     case AQUECENDO: return "AQUECENDO";
     case NORMAL:    return "NORMAL";
     case ALERTA:    return "ALERTA";
-    default:        return "PERIGO";
+    case PERIGO:    return "PERIGO";
+    default:        return "FALHA";
   }
 }
 
@@ -203,6 +225,20 @@ void atualizarAtuadores(unsigned long agora) {
         if (beepOn) tone(BUZZER, 1200); else noTone(BUZZER);
       }
       break;
+    case FALHA: {
+      // amarelo e vermelho piscam juntos, devagar: nao e alarme de gas
+      if (agora - ultimoPisca > 1000) { ledOn = !ledOn; ultimoPisca = agora; }
+      digitalWrite(LED_AMARELO, ledOn);
+      digitalWrite(LED_VERMELHO, ledOn);
+      if (silenciado) { noTone(BUZZER); beepOn = false; break; }
+      // bipe grave e longo: 1 s ligado a cada 5 s
+      bool quer = ((agora - inicioEstado) % 5000) < 1000;
+      if (quer != beepOn) {
+        beepOn = quer;
+        if (beepOn) tone(BUZZER, 400); else noTone(BUZZER);
+      }
+      break;
+    }
   }
 }
 
@@ -230,13 +266,33 @@ void loop() {
 
   if (agora < fimAquecimento) {
     estado = AQUECENDO;
-  } else if (gas >= limiarPerigo) {
-    estado = PERIGO;
-  } else if (gas >= limiarAlerta) {
-    estado = ALERTA;
+    abaixoDesde = 0;
   } else {
-    estado = NORMAL;
-    silenciado = false;              // rearma sozinho quando o ar normaliza
+    if (gas < limiarFalha) { if (abaixoDesde == 0) abaixoDesde = agora; }
+    else abaixoDesde = 0;
+
+    if (abaixoDesde != 0 && agora - abaixoDesde >= TEMPO_FALHA) {
+      estado = FALHA;
+    } else if (gas >= limiarPerigo) {
+      estado = PERIGO;
+    } else if (gas >= limiarAlerta) {
+      estado = ALERTA;
+    } else {
+      estado = NORMAL;
+      if (abaixoDesde == 0) silenciado = false;   // rearma sozinho quando o ar normaliza
+    }
+  }
+
+  // Troca de estado: comeca o novo som do zero (sem herdar o tom anterior).
+  // A falha e um evento novo: desfaz um silenciamento dado a um alarme.
+  if (estado != estadoAnterior) {
+    noTone(BUZZER);
+    beepOn = false; ledOn = false;
+    ultimoBeep = 0; ultimoPisca = 0; inicioEstado = agora;
+    if (estado == FALHA) silenciado = false;
+    Serial.print("Estado: "); Serial.println(nomeEstado());
+    estadoAnterior = estado;
+    ultimaTelemetria = 0;            // painel ve a mudanca no proximo laco
   }
 
   atualizarAtuadores(agora);
