@@ -136,6 +136,10 @@ strapping (0/2/12/15) e UART0 (1/3).
 > um **divisor 1:2** (1 kΩ / 2 kΩ) antes do GPIO 34. É o único divisor que restou no projeto.
 > O sensor precisa de **pré-aquecimento (~20 s)** — o firmware fica em `AQUECENDO` nesse
 > período. Calibre `limiarAlerta`/`limiarPerigo` observando o valor em ar limpo.
+> Se a leitura ficar abaixo de `limiarFalha` (50) por 3 s, a placa entra em `FALHA`
+> (sensor desconectado): bipe grave de 400 Hz, 1 s a cada 5 s, e LEDs amarelo e vermelho
+> piscando. Para testar, solte o fio do AO com a placa aquecida. Se o seu MQ-2 ler menos
+> que 50 em ar limpo, baixe o limite com `{"limiarFalha":N}` em `cidade/seguranca/cmd`.
 
 > **Módulos TCRT5000**: alimente em **3,3 V**. A saída acompanha a alimentação, e em 5 V
 > levaria 5 V ao GPIO. Saída em nível **baixo** com obstáculo (constante `NIVEL_DETECTADO`).
