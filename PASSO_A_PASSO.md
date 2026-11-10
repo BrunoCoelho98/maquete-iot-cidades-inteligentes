@@ -80,8 +80,9 @@ A placa não tem sensor nenhum — ela só aciona foco e roda a máquina de fase
 
 As quatro cabeças de veículo são **módulos de mini sinaleira**, não LEDs soltos: cada
 módulo traz os três LEDs em um corpo só, com três entradas de cor e um **pino comum**.
-O resistor continua sendo um por entrada — o módulo não muda a conta, muda o encaixe:
-ele fica **fora** da protoboard, ligado por quatro jumpers.
+O módulo usado na maquete já traz um resistor SMD sob cada LED, então as entradas de cor
+vão direto ao GPIO; ele fica **fora** da protoboard, ligado por quatro jumpers. Se o seu
+módulo não tiver resistor próprio, ponha 220 Ω em cada entrada de cor.
 
 A particularidade a entender antes de montar: **as duas cabeças de uma via
 compartilham o mesmo pino**, porque mostram o mesmo aspecto em todas as fases. São
@@ -106,9 +107,9 @@ compartilham o mesmo pino**, porque mostram o mesmo aspecto em todas as fases. S
 
 ### Etapa 2 — Um módulo só, e a polaridade dele
 
-**Monte:** **um** módulo de mini sinaleira na cabeça Norte: pino **comum** na trilha do terra e a entrada **vermelha** no GPIO **23** (canal 0, via A), com resistor de 220 Ω no caminho.
+**Monte:** **um** módulo de mini sinaleira na cabeça Norte: pino **comum** na trilha do terra e a entrada **vermelha** no GPIO **23** (canal 0, via A). Se o seu módulo não tiver resistor próprio, ponha 220 Ω no caminho.
 
-**Confira antes de ligar:** o módulo fica fora da protoboard; o que entra na placa são os jumpers. Nenhuma entrada de cor vai direto ao GPIO sem resistor.
+**Confira antes de ligar:** o módulo fica fora da protoboard; o que entra na placa são os jumpers. Nenhuma entrada de cor fica sem resistor: o do próprio módulo ou um externo de 220 Ω.
 
 **Prove:** comando `c0` e, em seguida, comando `4`. O pino alterna HIGH e LOW a cada 1,5 s e o serial diz qual nível está aplicado. **Anote em qual deles o vermelho acendeu**: `HIGH` = cátodo comum, `LOW` = ânodo comum.
 
@@ -118,7 +119,7 @@ compartilham o mesmo pino**, porque mostram o mesmo aspecto em todas as fases. S
 
 ### Etapa 3 — A segunda cabeça do mesmo canal
 
-**Monte:** o segundo módulo — a cabeça Sul — com o **seu próprio resistor de 220 Ω** na entrada vermelha, no mesmo GPIO **23**.
+**Monte:** o segundo módulo — a cabeça Sul — com a entrada vermelha no mesmo GPIO **23** (e o seu próprio resistor de 220 Ω, se o módulo não tiver resistor embutido).
 
 **Confira antes de ligar:** que são **dois resistores**, um por entrada. Não divida um resistor entre os dois módulos.
 

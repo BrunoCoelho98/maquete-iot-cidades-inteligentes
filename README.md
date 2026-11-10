@@ -77,7 +77,7 @@ strapping (0/2/12/15) e UART0 (1/3).
 | Buzzer (travessia sonora) | 33 |
 
 > As duas cabeças de uma via dividem o mesmo pino porque **sempre mostraram o mesmo
-> aspecto**, em todas as fases. Cada entrada de cor mantém o seu resistor. Livre: GPIO 32.
+> aspecto**, em todas as fases. Os módulos usados já trazem resistor em cada entrada de cor. Livre: GPIO 32.
 >
 > O **buzzer da travessia** é item de acessibilidade: apita na fase de pedestre e acelera no
 > intermitente, e é a indicação da travessia para quem não vê o foco.
@@ -91,7 +91,7 @@ strapping (0/2/12/15) e UART0 (1/3).
 |---|---|
 | IR de aproximação N / S / L / O | 34 / 35 / 36 / 39 (só entrada) |
 | IR de vaga 1 / 2 / 3 | 32 / 33 / 25 |
-| Botoeiras N / S / L / O | 27 / 26 / 14 / 13 (`INPUT_PULLUP`) |
+| Botoeiras N / S / L / O | 17 / 21 / 18 / 19 (`INPUT_PULLUP`) |
 
 > Os detectores IR podem ficar em 34–39 porque o módulo traz o próprio pull-up. As
 > botoeiras não podem: usam o pull-up interno do ESP32 e exigem GPIO comum.
