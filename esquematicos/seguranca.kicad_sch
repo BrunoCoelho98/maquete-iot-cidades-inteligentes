@@ -3133,7 +3133,7 @@
 				)
 			)
 		)
-		(property "Value" "10k"
+		(property "Value" "1k"
 			(at 189.6 177.01 0)
 			(effects
 				(font
@@ -3185,7 +3185,7 @@
 				)
 			)
 		)
-		(property "Value" "20k"
+		(property "Value" "2k"
 			(at 189.6 202.01 0)
 			(effects
 				(font
@@ -3527,7 +3527,7 @@
 		)
 		(uuid "a6d9ee54-3d7f-5845-0ed7-2b50380f0750")
 	)
-	(text "• O aquecedor do MQ-2 exige 5 V, e por isso a saída AO chega perto de 5 V — o divisor 10 k / 20 k traz"
+	(text "• O aquecedor do MQ-2 exige 5 V, e por isso a saída AO chega perto de 5 V — o divisor 1 k / 2 k traz"
 		(exclude_from_sim no)
 		(at 20 242.5 0)
 		(effects

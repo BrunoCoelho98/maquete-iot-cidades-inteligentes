@@ -20,6 +20,7 @@ esquematicos/
   ambiental.kicad_sch    placa 3
   seguranca.kicad_sch    placa 4
   pdf/                   os mesmos desenhos, para imprimir
+  png/                   versões simplificadas, só com os pinos usados (Figuras 29 a 33 do TCC)
 ```
 
 Para abrir no KiCad, use **File → Open Schematic**: são folhas avulsas de documentação,

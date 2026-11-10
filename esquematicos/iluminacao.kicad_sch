@@ -2627,7 +2627,7 @@
 				)
 			)
 		)
-		(property "Value" "220"
+		(property "Value" "100"
 			(at 219.6 202.2 0)
 			(effects
 				(font
